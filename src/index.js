@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== 'production') {
 library.add(faSpinner);
 
 // const reduxDevtools = window.__REDUX_DEVTOOLS_EXTENSION__;
-// console.log(cookies.get('name'));
+
 if (!cookies.get('name')) {
   const randomName = faker.name.findName();
   cookies.set('name', randomName, { expires: 7 });
@@ -37,9 +37,7 @@ const store = createStore(
 store.dispatch(setUserName({ name: cookies.get('name') }));
 
 const socket = io();
-// socket.on('connect', () => console.log('testing'));
 socket.on('newMessage', ({ data: { attributes } }) => {
   store.dispatch(sendMessageSuccess(attributes));
 });
-// socket.on('disconnect', () => console.log('disconnect'));
 app(store);
