@@ -8,6 +8,7 @@ import * as actionCreators from '../actions';
 const mapStateToProps = state => ({
   userName: state.userName,
   messages: state.messages,
+  currentChannelId: state.currentChannelId,
   sendingMessageState: state.sendingMessageState,
 });
 
@@ -17,9 +18,19 @@ const mapStateToProps = state => ({
   form: 'chatMessage',
 })
 class Chat extends React.Component {
+  componentDidMount() {
+    this.input.getRenderedComponent().focus();
+  }
+
+  componentDidUpdate() {
+    this.input.getRenderedComponent().focus();
+  }
+
   sendMessage = ({ message }) => {
-    const { sendMessage, reset, userName } = this.props;
-    sendMessage(message, userName);
+    const {
+      sendMessage, reset, currentChannelId, userName,
+    } = this.props;
+    sendMessage(message, userName, currentChannelId);
     reset();
   }
 
@@ -53,7 +64,7 @@ class Chat extends React.Component {
         <div className="card-footer">
           <form action="" className="d-flex" onSubmit={handleSubmit(this.sendMessage)}>
             <div className="input-group">
-              <Field type="text" name="message" component="input" className="form-control" required disabled={isDisabled} />
+              <Field type="text" name="message" component="input" className="form-control" autoComplete="off" ref={(c) => { this.input = c; }} withRef required disabled={isDisabled} />
               <div className="input-group-append">
                 <button className="btn btn-success" type="submit" disabled={isDisabled}>
                   {isDisabled ? <FontAwesomeIcon icon="spinner" spin /> : 'Send'}
