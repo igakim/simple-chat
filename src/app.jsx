@@ -1,12 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import createStore from './store';
-import App from './components/App.jsx';
+import App from './components/App';
 
-export default (gon) => {
+export default (store) => {
   render(
-    <Provider store={createStore(gon)}>
+    <Provider store={store}>
       <App />
     </Provider>,
     document.getElementById('chat'),
