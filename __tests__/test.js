@@ -1,9 +1,11 @@
+import routes from '../src/routes';
+
 test('example', () => {
-  const expected = 'test';
-  expect('test').toBe(expected);
+  const expected = '/api/v1/channels/0/messages';
+  expect(routes.postMessageUrl(0)).toBe(expected);
 });
 
 test('example2', () => {
-  const expected = 'test2';
-  expect('test2').toBe(expected);
+  const expected = '/api/v1/channels/1/messages';
+  expect(routes.postMessageUrl(1)).toBe(expected);
 });
