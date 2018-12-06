@@ -1,81 +1,21 @@
 import React from 'react';
-import { reduxForm, Field } from 'redux-form';
-import cn from 'classnames';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { connect } from 'react-redux';
-import * as actionCreators from '../actions';
-
-const mapStateToProps = state => ({
-  userName: state.userName,
-  messages: state.messages,
-  currentChannelId: state.currentChannelId,
-  sendingMessageState: state.sendingMessageState,
-});
+import MessageBox from './MessageBox';
+import MessageForm from './MessageForm';
+import MessageTitle from './MessageTitle';
 
 
-@connect(mapStateToProps, actionCreators)
-@reduxForm({
-  form: 'chatMessage',
-})
-class Chat extends React.Component {
-  componentDidMount() {
-    this.input.getRenderedComponent().focus();
-  }
-
-  componentDidUpdate() {
-    this.input.getRenderedComponent().focus();
-  }
-
-  sendMessage = ({ message }) => {
-    const {
-      sendMessage, reset, currentChannelId, userName,
-    } = this.props;
-    sendMessage(message, userName, currentChannelId);
-    reset();
-  }
-
-  render() {
-    const {
-      messages, handleSubmit, userName, sendingMessageState,
-    } = this.props;
-    const isDisabled = sendingMessageState === 'requested';
-    return (
-      <div className="card">
-        <div className="card-header">
-          <h3>Chat</h3>
-        </div>
-        <div className="card-body">
-          {messages.map((m) => {
-            const classes = cn({
-              'user-name': true,
-              'font-weight-bold': true,
-              'text-danger': userName === m.userName,
-            });
-            return (
-              <p key={m.id}>
-                <span className={classes}>
-                  {`${m.userName === userName ? 'You' : m.userName}: `}
-                </span>
-                {m.message}
-              </p>
-            );
-          })}
-        </div>
-        <div className="card-footer">
-          <form action="" className="d-flex" onSubmit={handleSubmit(this.sendMessage)}>
-            <div className="input-group">
-              <Field type="text" name="message" component="input" className="form-control" autoComplete="off" ref={(c) => { this.input = c; }} withRef required disabled={isDisabled} />
-              <div className="input-group-append">
-                <button className="btn btn-success" type="submit" disabled={isDisabled}>
-                  {isDisabled ? <FontAwesomeIcon icon="spinner" spin /> : 'Send'}
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    );
-  }
-}
+const Chat = () => (
+  <div className="card">
+    <div className="card-header">
+      <MessageTitle />
+    </div>
+    <div className="card-body">
+      <MessageBox />
+    </div>
+    <div className="card-footer">
+      <MessageForm />
+    </div>
+  </div>
+);
 
 export default Chat;
