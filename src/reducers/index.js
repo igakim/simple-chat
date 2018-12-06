@@ -17,6 +17,7 @@ const sendingMessageState = handleActions({
 }, 'none');
 
 const channels = handleActions({}, {});
+
 const userName = handleActions({
   [actions.setUserName](state, { payload: { name } }) {
     return name;
