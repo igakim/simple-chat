@@ -18,11 +18,12 @@ export const sendMessage = (message, userName, currentChannelId) => async (dispa
         attributes: {
           message,
           userName,
+          date: new Date(),
         },
       },
     };
 
-    await axios.post(routes.postMessageUrl(currentChannelId), data);
+    axios.post(routes.postMessageUrl(currentChannelId), data);
     // dispatch(sendMessageSuccess(response.data));
   } catch (e) {
     dispatch(sendMessageFailure());
