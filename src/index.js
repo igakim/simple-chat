@@ -40,4 +40,5 @@ const socket = io();
 socket.on('newMessage', ({ data: { attributes } }) => {
   store.dispatch(sendMessageSuccess(attributes));
 });
+
 app(store);
