@@ -1,11 +1,12 @@
 import React from 'react';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as actionCreators from '../actions';
+import { withUserName } from '../userNameContext';
+import AutoFocusInput from './AutoFocusInput';
 
 const mapStateToProps = state => ({
-  userName: state.userName,
   currentChannelId: state.currentChannelId,
   sendingMessageState: state.sendingMessageState,
 });
@@ -14,33 +15,29 @@ const mapStateToProps = state => ({
 @reduxForm({
   form: 'chatMessage',
 })
+@withUserName
 class MessageForm extends React.Component {
-  componentDidMount() {
-    this.input.getRenderedComponent().focus();
-  }
-
-  componentDidUpdate() {
-    this.input.getRenderedComponent().focus();
-  }
-
   sendMessage = ({ message }) => {
     const {
       sendMessage, reset, currentChannelId, userName,
     } = this.props;
-    sendMessage(message, userName, currentChannelId);
-    reset();
+    const promise = new Promise((resolve) => {
+      sendMessage(message, userName, currentChannelId, resolve);
+    });
+    return promise.then(() => {
+      reset();
+    });
   }
 
   render() {
-    const { handleSubmit, sendingMessageState } = this.props;
-    const isDisabled = sendingMessageState === 'requested';
+    const { handleSubmit, pristine, submitting } = this.props;
     return (
       <form action="" className="d-flex" onSubmit={handleSubmit(this.sendMessage)}>
         <div className="input-group">
-          <Field type="text" name="message" component="input" className="form-control" autoComplete="off" ref={(c) => { this.input = c; }} withRef required disabled={isDisabled} />
+          <AutoFocusInput submitting={submitting} />
           <div className="input-group-append">
-            <button className="btn btn-success" type="submit" disabled={isDisabled}>
-              {isDisabled ? <FontAwesomeIcon icon="spinner" spin /> : 'Send'}
+            <button className="btn btn-success" type="submit" disabled={pristine || submitting}>
+              {submitting ? <FontAwesomeIcon icon="spinner" spin /> : 'Send'}
             </button>
           </div>
         </div>

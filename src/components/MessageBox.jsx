@@ -1,50 +1,46 @@
 import React from 'react';
 import cn from 'classnames';
 import { connect } from 'react-redux';
+import { withUserName } from '../userNameContext';
+import AutoScrollBottomBox from './AutoScrollBottomBox';
 
 const mapStateToProps = state => ({
-  userName: state.userName,
   messages: state.messages,
 });
 
 @connect(mapStateToProps)
+@withUserName
 class MessageBox extends React.Component {
-  componentDidMount() {
-    this.messageBox.scrollTop = this.messageBox.scrollHeight;
+  getClasses = (currentUserName) => {
+    const { userName } = this.props;
+    return cn({
+      'user-name': true,
+      'font-weight-bold': true,
+      'mb-0': true,
+      'text-danger': userName === currentUserName,
+    });
   }
 
-  componentDidUpdate() {
-    this.messageBox.scrollTop = this.messageBox.scrollHeight;
-  }
+  getDate = dateString => new Date(dateString).toLocaleTimeString()
 
   render() {
     const { messages, userName } = this.props;
     return (
-      <div className="message-box" ref={(c) => { this.messageBox = c; }}>
-        {messages.map((m) => {
-          const classes = cn({
-            'user-name': true,
-            'font-weight-bold': true,
-            'mb-0': true,
-            'text-danger': userName === m.userName,
-          });
-          const date = new Date(m.date);
-
-          return (
-            <div key={m.id}>
-              <p className={classes}>
-                {`${m.userName === userName ? 'You' : m.userName} `}
-                <span className="timestamp font-italic text-muted font-weight-light">
-                  <small>{date.toLocaleTimeString()}</small>
-                </span>
-              </p>
-              <p className="message">
-                {m.message}
-              </p>
-            </div>
-          );
-        })}
-      </div>
+      <AutoScrollBottomBox>
+        {messages.map(m => (
+          <div key={m.id}>
+            <p className={this.getClasses(m.userName)}>
+              {`${m.userName === userName ? 'You' : m.userName} `}
+              <span className="timestamp font-italic text-muted font-weight-light">
+                <small>{this.getDate(m.date)}</small>
+              </span>
+            </p>
+            <p className="message">
+              {m.message}
+            </p>
+          </div>
+        ))}
+      </AutoScrollBottomBox>
     );
   }
 }

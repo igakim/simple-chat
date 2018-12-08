@@ -9,17 +9,19 @@ const mapStateToProps = state => ({
 
 @connect(mapStateToProps)
 class ChannelsList extends React.Component {
+  getClasses = (channelId) => {
+    const { currentChannelId } = this.props;
+    return cn({
+      'list-group-item': true,
+      active: channelId === currentChannelId,
+    });
+  }
+
   render() {
-    const { channels, currentChannelId } = this.props;
+    const { channels } = this.props;
     return (
       <ul className="list-group">
-        {channels.map(({ id, name }) => {
-          const classes = cn({
-            'list-group-item': true,
-            active: id === currentChannelId,
-          });
-          return <li key={id} className={classes}>{name}</li>;
-        })}
+        {channels.map(({ id, name }) => <li key={id} className={this.getClasses(id)}>{name}</li>)}
       </ul>
     );
   }
