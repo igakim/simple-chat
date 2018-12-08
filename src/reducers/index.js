@@ -18,12 +18,6 @@ const sendingMessageState = handleActions({
 
 const channels = handleActions({}, {});
 
-const userName = handleActions({
-  [actions.setUserName](state, { payload: { name } }) {
-    return name;
-  },
-}, '');
-
 const messages = handleActions({
   [actions.sendMessageSuccess](state, { payload }) {
     return state.concat(payload);
@@ -37,6 +31,5 @@ export default combineReducers({
   messages,
   currentChannelId,
   sendingMessageState,
-  userName,
   form: formReducer,
 });
