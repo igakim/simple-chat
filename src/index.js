@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/application.css';
+import '@babel/polyfill';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import faker from 'faker';
@@ -9,7 +10,7 @@ import io from 'socket.io-client';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import app from './app';
-import { sendMessageSuccess, setUserName } from './actions';
+import { sendMessageSuccess } from './actions';
 import rootReducer from './reducers';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -34,11 +35,11 @@ const store = createStore(
   ),
 );
 
-store.dispatch(setUserName({ name: cookies.get('name') }));
+const userName = cookies.get('name');
 
 const socket = io();
 socket.on('newMessage', ({ data: { attributes } }) => {
   store.dispatch(sendMessageSuccess(attributes));
 });
 
-app(store);
+app(store, userName);
