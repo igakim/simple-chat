@@ -15,7 +15,9 @@
     "build-app": "npx webpack -p --env production",
     "build": "npm run build-app && npm run build-server",
     "postinstall": "npm run build",
-    "postbuild": "webpack -p"
+    "postbuild": "webpack -p",
+    "start": "node ./dist/bin/slack.js",
+    "heroku-postbuild": "webpack -p"
   },
   "repository": {
     "type": "git",
