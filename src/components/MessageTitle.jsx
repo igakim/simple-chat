@@ -8,7 +8,7 @@ const getCurrentChannelId = state => state.currentChannelId;
 const currentChannelTitle = createSelector(
   getChannels,
   getCurrentChannelId,
-  (channels, id) => channels.find(el => el.id === id).name,
+  (channels, id) => Object.values(channels).find(el => el.id === id).name,
 );
 
 const mapStateToProps = state => ({
