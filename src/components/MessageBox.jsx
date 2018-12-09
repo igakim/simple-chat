@@ -1,10 +1,21 @@
 import React from 'react';
 import cn from 'classnames';
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import { withUserName } from '../userNameContext';
 
+const getMessages = state => state.messages;
+
+const getCurrentChannelId = state => state.currentChannelId;
+
+const chanelMessages = createSelector(
+  getMessages,
+  getCurrentChannelId,
+  (messages, id) => messages.filter(el => el.channelId === id),
+);
+
 const mapStateToProps = state => ({
-  messages: state.messages,
+  messages: chanelMessages(state),
 });
 
 @connect(mapStateToProps)
