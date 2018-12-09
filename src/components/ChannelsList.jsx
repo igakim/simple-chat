@@ -1,28 +1,49 @@
 import React from 'react';
-import cn from 'classnames';
 import { connect } from 'react-redux';
+import { ListGroup, ButtonGroup } from 'react-bootstrap';
+import { createSelector } from 'reselect';
+import * as actionCreators from '../actions';
+import AddChannelModal from './AddChannelModal';
+import RenameChannelModal from './RenameChannelModal';
+import RemoveChannelModal from './RemoveChannelModal';
+
+const getChannels = state => state.channels;
+
+const channelsList = createSelector(
+  getChannels,
+  ch => Object.values(ch),
+);
 
 const mapStateToProps = state => ({
-  channels: state.channels,
+  channels: channelsList(state),
   currentChannelId: state.currentChannelId,
 });
 
-@connect(mapStateToProps)
+@connect(mapStateToProps, actionCreators)
 class ChannelsList extends React.Component {
-  getClasses = (channelId) => {
-    const { currentChannelId } = this.props;
-    return cn({
-      'list-group-item': true,
-      active: channelId === currentChannelId,
-    });
+  changeChannel = id => () => {
+    const { changeChannelId } = this.props;
+    changeChannelId({ id });
   }
 
   render() {
     const { channels } = this.props;
     return (
-      <ul className="list-group">
-        {channels.map(({ id, name }) => <li key={id} className={this.getClasses(id)}>{name}</li>)}
-      </ul>
+      <ListGroup>
+        <div className="d-flex justify-content-between mb-2">
+          <h4>Channels</h4>
+          <AddChannelModal />
+        </div>
+        {channels.map(({ id, name, removable }) => (
+          <ListGroup.Item key={id} as="div" className="d-flex justify-content-between" action eventKey={id} onClick={this.changeChannel(id)}>
+            {name}
+            <ButtonGroup size="sm" className="align-self-center">
+              <RenameChannelModal id={id} name={name} />
+              { removable ? <RemoveChannelModal id={id} changeTo={this.changeChannel(1)} /> : ''}
+            </ButtonGroup>
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
     );
   }
 }
