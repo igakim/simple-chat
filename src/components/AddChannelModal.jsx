@@ -25,11 +25,10 @@ class AddChannelModal extends React.Component {
 
   addChannel = ({ name }) => {
     const { addChannel, reset } = this.props;
-    const cb = () => {
+    return addChannel(name).then(() => {
       reset();
       this.handleClose();
-    };
-    return addChannel(name, cb);
+    });
   }
 
   handleClose() {

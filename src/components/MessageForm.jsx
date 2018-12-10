@@ -31,17 +31,9 @@ class MessageForm extends React.Component {
 
   sendMessage = ({ message }) => {
     const {
-      sendMessage, reset, currentChannelId, userName,
+      sendMessage, currentChannelId, userName, reset,
     } = this.props;
-
-    // Не могу понять как правильно написать Промис для submitting
-    // Чувствую что это совсем не то:
-    const promise = new Promise((resolve) => {
-      sendMessage(message, userName, currentChannelId, resolve);
-    });
-    return promise.then(() => {
-      reset();
-    });
+    return sendMessage(message, userName, currentChannelId).then(() => reset());
   }
 
   render() {

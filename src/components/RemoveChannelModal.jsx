@@ -22,7 +22,9 @@ class RemoveChannelModal extends React.Component {
 
   removeChannel = id => () => {
     const { removeChannel } = this.props;
-    removeChannel(id);
+    return removeChannel(id).then(() => {
+      this.handleClose();
+    });
   }
 
   handleClose() {

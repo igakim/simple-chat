@@ -5,18 +5,6 @@ import { omitBy } from 'lodash';
 
 import * as actions from '../actions';
 
-const sendingMessageState = handleActions({
-  [actions.sendMessageRequest]() {
-    return 'requested';
-  },
-  [actions.sendMessageFailure]() {
-    return 'failed';
-  },
-  [actions.sendMessageSuccess]() {
-    return 'successed';
-  },
-}, 'none');
-
 const channels = handleActions({
   [actions.addChannelSuccess](state, { payload }) {
     return {
@@ -45,12 +33,28 @@ const currentChannelId = handleActions({
   [actions.changeChannelId](state, { payload: { id } }) {
     return id;
   },
-}, 0);
+}, null);
+
+const notification = handleActions({
+  [actions.closeAlert]() {
+    return { show: false };
+  },
+  [actions.showAlert](state, { payload: { alertProperty } }) {
+    return {
+      show: true,
+      title: alertProperty.title,
+      variant: alertProperty.variant,
+      description: alertProperty.description,
+    };
+  },
+}, {
+  show: false,
+});
 
 export default combineReducers({
   channels,
   messages,
   currentChannelId,
-  sendingMessageState,
+  notification,
   form: formReducer,
 });

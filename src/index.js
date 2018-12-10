@@ -28,7 +28,9 @@ if (process.env.NODE_ENV !== 'production') {
 
 library.add(faSpinner, faPlus, faPen, faTrashAlt);
 
-// const reduxDevtools = window.__REDUX_DEVTOOLS_EXTENSION__;
+/* eslint-disable no-underscore-dangle */
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+/* eslint-enable */
 
 if (!cookies.get('name')) {
   const randomName = faker.name.findName();
@@ -40,9 +42,8 @@ const channels = keyBy(gon.channels, el => el.id);
 const store = createStore(
   rootReducer,
   { ...gon, channels },
-  compose(
+  composeEnhancers(
     applyMiddleware(thunk),
-    // reduxDevtools && reduxDevtools(),
   ),
 );
 
