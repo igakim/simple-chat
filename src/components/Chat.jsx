@@ -15,7 +15,6 @@ const channelsList = createSelector(
 
 const mapStateToProps = state => ({
   channels: channelsList(state),
-  currentChannelId: state.currentChannelId,
 });
 
 @connect(mapStateToProps)

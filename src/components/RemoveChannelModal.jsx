@@ -20,11 +20,10 @@ class RemoveChannelModal extends React.Component {
     };
   }
 
-  removeChannel = id => () => {
+  removeChannel = id => async () => {
     const { removeChannel } = this.props;
-    return removeChannel(id).then(() => {
-      this.handleClose();
-    });
+    await removeChannel(id);
+    this.handleClose();
   }
 
   handleClose() {

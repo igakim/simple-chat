@@ -23,14 +23,13 @@ class RenameChannelModal extends React.Component {
     };
   }
 
-  renameChannel = ({ name }) => {
+  renameChannel = async ({ name }) => {
     const {
       renameChannel, reset, id,
     } = this.props;
-    return renameChannel(name, id).then(() => {
-      reset();
-      this.handleClose();
-    });
+    await renameChannel(name, id);
+    reset();
+    this.handleClose();
   }
 
   handleClose() {

@@ -16,7 +16,6 @@ const channelsList = createSelector(
 
 const mapStateToProps = state => ({
   channels: channelsList(state),
-  currentChannelId: state.currentChannelId,
 });
 
 @connect(mapStateToProps, actionCreators)
@@ -39,7 +38,7 @@ class ChannelsList extends React.Component {
             {name}
             <ButtonGroup size="sm" className="align-self-center">
               <RenameChannelModal id={id} name={name} />
-              { removable ? <RemoveChannelModal id={id} changeTo={this.changeChannel(1)} /> : ''}
+              { removable ? <RemoveChannelModal id={id} /> : ''}
             </ButtonGroup>
           </ListGroup.Item>
         ))}

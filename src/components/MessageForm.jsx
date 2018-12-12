@@ -29,11 +29,12 @@ class MessageForm extends React.Component {
     this.input.current.getRenderedComponent().focus();
   }
 
-  sendMessage = ({ message }) => {
+  sendMessage = async ({ message }) => {
     const {
       sendMessage, currentChannelId, userName, reset,
     } = this.props;
-    return sendMessage(message, userName, currentChannelId).then(() => reset());
+    await sendMessage(message, userName, currentChannelId);
+    reset();
   }
 
   render() {

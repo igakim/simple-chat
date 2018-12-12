@@ -21,19 +21,6 @@ const mapStateToProps = state => ({
 @connect(mapStateToProps)
 @withUserName
 class MessageBox extends React.Component {
-  constructor(props) {
-    super(props);
-    this.messageBox = React.createRef();
-  }
-
-  componentDidMount() {
-    this.messageBox.current.scrollTop = this.messageBox.current.scrollHeight;
-  }
-
-  componentDidUpdate() {
-    this.messageBox.current.scrollTop = this.messageBox.current.scrollHeight;
-  }
-
   getClasses = (currentUserName) => {
     const { userName } = this.props;
     return cn({
@@ -49,7 +36,7 @@ class MessageBox extends React.Component {
   render() {
     const { messages, userName } = this.props;
     return (
-      <div className="message-box" ref={this.messageBox}>
+      <div className="message-box">
         {messages.map(m => (
           <div key={m.id}>
             <p className={this.getClasses(m.userName)}>
