@@ -4,7 +4,7 @@ import '@babel/polyfill';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { keyBy } from 'lodash';
 import thunk from 'redux-thunk';
-import name from 'faker/lib/name';
+import faker from 'faker';
 import gon from 'gon';
 import cookies from 'js-cookie';
 import io from 'socket.io-client';
@@ -33,7 +33,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 /* eslint-enable */
 
 if (!cookies.get('name')) {
-  const randomName = name.findName();
+  const randomName = faker.name.findName();
   cookies.set('name', randomName, { expires: 7 });
 }
 
