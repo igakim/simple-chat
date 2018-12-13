@@ -4,7 +4,7 @@ import '@babel/polyfill';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { keyBy } from 'lodash';
 import thunk from 'redux-thunk';
-import findName from 'faker/lib/name';
+import { findName } from 'faker/lib/name';
 import gon from 'gon';
 import cookies from 'js-cookie';
 import io from 'socket.io-client';
