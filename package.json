@@ -15,8 +15,8 @@
     "build-app": "npx webpack -p --env production",
     "build": "npm run build-app && npm run build-server",
     "start": "node ./dist/bin/slack.js",
-    "heroku-postbuild": "NODE_ENV=test",
-    "postinstall": "if test \"$NODE_ENV\" = \"production\" ; then npm run build; fi"
+    "heroku-postbuild": "webpack -p",
+    "postinstall": "npm run build-server"
   },
   "author": "Igor Kim",
   "license": "ISC",
