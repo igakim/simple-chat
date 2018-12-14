@@ -13,10 +13,9 @@
     "test": "jest",
     "build-server": "babel server --out-dir dist --source-maps inline",
     "build-app": "npx webpack -p --env production",
-    "build": "npm run build-app && npm run build-server",
+    "build": "npm run build-app && npm run build-server && npm run my",
     "postinstall": "if test \"$NODE_ENV\" = \"production\" ; then npm run build; fi",
-    "start": "node ./dist/bin/slack.js",
-    "heroku-postbuild": "webpack -p"
+    "start": "node ./dist/bin/slack.js"
   },
   "author": "Igor Kim",
   "license": "ISC",
