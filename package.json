@@ -14,7 +14,7 @@
     "build-server": "babel server --out-dir dist --source-maps inline",
     "build-app": "npx webpack -p --env production",
     "build": "npm run build-app && npm run build-server",
-    "postinstall": "if test \"$NODE_ENV\" = \"production\" ; then make build; fi",
+    "postinstall": "if test \"$NODE_ENV\" = \"production\" ; then npm run build; fi",
     "start": "node ./dist/bin/slack.js",
     "heroku-postbuild": "webpack -p"
   },
