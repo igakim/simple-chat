@@ -7,7 +7,8 @@ import socket from 'socket.io';
 import http from 'http';
 import Router from 'koa-router';
 import koaLogger from 'koa-logger';
-import koaWebpack from 'koa-webpack';
+// import koaWebpack from 'koa-webpack';
+import serve from 'koa-static';
 import bodyParser from 'koa-bodyparser';
 import session from 'koa-generic-session';
 import _ from 'lodash';
@@ -17,17 +18,16 @@ import webpackConfig from '../webpack.config';
 
 export default () => {
   const app = new Koa();
-  const test = process.env;
-  console.log(test);
+
   app.keys = ['some secret hurr'];
   app.use(session(app));
   app.use(bodyParser());
-  // app.use(serve(path.join(__dirname, '..', 'public')));
-  koaWebpack({
-    config: webpackConfig,
-  }).then((middleware) => {
-    app.use(middleware);
-  });
+  app.use(serve(path.join(__dirname, '..', 'dist')));
+  // koaWebpack({
+  //   config: webpackConfig,
+  // }).then((middleware) => {
+  //   app.use(middleware);
+  // });
 
   const router = new Router();
 
