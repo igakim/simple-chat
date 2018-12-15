@@ -14,7 +14,7 @@ import session from 'koa-generic-session';
 import _ from 'lodash';
 import addRoutes from './routes';
 
-import webpackConfig from '../webpack.config';
+// import webpackConfig from '../webpack.config';
 
 export default () => {
   const app = new Koa();
