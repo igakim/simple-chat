@@ -12,6 +12,7 @@ module.exports = {
   },
   output: {
     publicPath: '/assets/',
+    path: `${__dirname}/dist/assets`,
   },
   module: {
     rules: [
