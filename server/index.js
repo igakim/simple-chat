@@ -17,7 +17,8 @@ import webpackConfig from '../webpack.config';
 
 export default () => {
   const app = new Koa();
-
+  const test = process.env;
+  console.log(test);
   app.keys = ['some secret hurr'];
   app.use(session(app));
   app.use(bodyParser());
