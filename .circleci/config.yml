@@ -1,0 +1,18 @@
+version: 2
+jobs:
+  build:
+    machine:
+      enabled: true
+    steps:
+      - add_ssh_keys:
+            fingerprints:
+              - "23:5c:b7:18:6e:ae:32:d9:dc:41:0b:d7:59:5e:50:40"
+      - run: ssh -p $SSH_PORT $SSH_USER@$SSH_HOST "cd chat.uz/simple-chat && git pull --rebase origin master && docker-compose down --rmi local && docker-compose up -d"
+
+workflows:
+  version: 2
+  one_and_two:
+    jobs:
+      - build
+
+
