@@ -16,3 +16,4 @@
 
 ## Link to chat:
 [https://igakim-slack.herokuapp.com/](https://igakim-slack.herokuapp.com/)
+
